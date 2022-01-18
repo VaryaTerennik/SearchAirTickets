@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main class="main">
+      <aside class="nav">
+        <div class="nav__item">
+          <h3>Сортировать</h3>
+          <ul>
+            <li>
+              <label>
+                <input type="checkbox" id="price-increase" />
+                <span>По возрастанию цены</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" id="price-decrease" />
+                <span>По убыванию цены</span>
+              </label>
+            </li>
+            <li>
+              <label
+                ><input type="checkbox" id="sort-traveltime" />
+                <span>По времени в пути</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+        <div class="nav__item">
+          <h3>Фильтровать</h3>
+          <ul>
+            <li>
+              <label>
+                <input type="checkbox" id="transfer-one" />
+                <span>Одна пересадка</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" id="transfer-none" />
+                <span>Без пересадок</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+        <div class="nav__item">
+          <h3>Цена</h3>
+          <div class="nav__item-price">
+            <lable>
+              <span>От</span>
+              <input type="number" id="price-start" placeholder="0" value="0" />
+            </lable>
+            <lable>
+              <span>До</span>
+              <input
+                type="number"
+                id="price-end"
+                placeholder="10000000"
+                value="10000000"
+              />
+            </lable>
+          </div>
+        </div>
+        <div class="nav__item">
+          <div class="nav__item-airlines">
+            <h3>Авиакомпании</h3>
+            <div class="nav__item-airlines-wrapper">
+              <label class="item__airline">
+                <input type="checkbox" id="airline" /><span></span>
+              </label>
+              <label class="item__airline">
+                <input type="checkbox" id="airline" /><span></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <section class="results">
+        <div class="flights"></div>
+      </section>
+    </main>
+    <script src="js/script.js"></script>
+  </body>
+</html>
