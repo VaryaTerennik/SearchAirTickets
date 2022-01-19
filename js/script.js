@@ -265,45 +265,6 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // class AirlinesList {
-  //   constructor(data, parentSelector) {
-  //     this.airlineTo = data.to.airline;
-  //     this.airlineBack = data.back.airline;
-  //     this.parent = document.querySelector(parentSelector);
-  //     this.collectionAir = this.createListAirlines(
-  //       this.airlineTo,
-  //       this.airlineBack
-  //     );
-  //     this.price = data.price;
-  //   }
-
-  //   createListAirlines(a, b) {
-  //     const collec = [];
-  //     collec.push(a);
-  //     collec.push(b);
-  //   }
-
-  //   render() {
-  //     const template = document.createElement("div");
-  //     template.classList.add("item__airline");
-  //     templateAirlines.innerHTML = `
-  //     <label class="item__airline">
-  //       <input type="checkbox" id="airline" />
-  //         <span></span>
-  //         <span></span>
-  //     </label>
-  //     `;
-  //     this.parent.append(template);
-  //   }
-  // }
-
-  // function pushAirline(a, b) {
-  //   const collec = [];
-  //   collec.push(a, b);
-  //   console.log(collec);
-  //   return collec;
-  // }
-
   function createListAirlines(arr) {
     const res = arr.map((item) => {
       let collec = { carrier: item.carrier, price: item.price };
@@ -311,35 +272,55 @@ window.addEventListener("DOMContentLoaded", () => {
     });
     console.log(res);
 
-    // function groupBy(list, keyGetter) {
-    //   const map = new Map();
-    //   list.forEach((item) => {
-    //     const key = keyGetter(item);
-    //     const collection = map.get(key);
-    //     if (!collection) {
-    //       map.set(key, [item]);
-    //     } else {
-    //       collection.push(item);
-    //     }
-    //   });
-    //   return map;
-    // }
+    const groupBy = res.reduce((acc, cur) => {
+      acc[cur.carrier] = acc[cur.carrier] || {
+        carrier: cur.carrier,
+        prices: [],
+      };
+      acc[cur.carrier].prices.push(cur.price);
+      return acc;
+    }, {});
 
-    // const grouped = groupBy(res, (item) => item.carrier);
+    const groupList = Object.values(groupBy);
+    console.log(groupList);
 
     const parent = document.querySelector(".nav__item-airlines-wrapper");
 
-    res.forEach((item) => {
+    groupList.map((item) => {
       const template = document.createElement("div");
       template.classList.add("item__airline");
       template.innerHTML = `
-      <label class="item__airline">
+      <label class="item__airline"> 
         <input type="checkbox" id="airline" />
           <span>${item.carrier}</span>
           <span></span>
       </label>
       `;
       parent.append(template);
+    });
+
+    const filterAirline = document.querySelectorAll("#airline");
+
+    filterAirline.forEach((item) => {
+      item.addEventListener("change", (e) => {
+        flights.innerHTML = "";
+        let target = e.target;
+        let parent = target.closest(".item__airline");
+        console.log(parent.textContent.replace(/\s+/g, ""));
+
+        if (item.checked == true) {
+          const result = resultData.filter(
+            (el) =>
+              el.carrier.replace(/\s+/g, "") ==
+              parent.textContent.replace(/\s+/g, "")
+          );
+          console.log(result);
+          createFlightCard(result);
+        } else {
+          flights.innerHTML = "";
+          createFlightCard(resultData);
+        }
+      });
     });
   }
 
@@ -436,7 +417,6 @@ window.addEventListener("DOMContentLoaded", () => {
   filterPriceDiff.addEventListener("input", (e) => {
     flights.innerHTML = "";
     let target = e.target;
-    console.log(target.value);
     if (target == priceStart || target == priceEnd) {
       const result = resultData.filter(
         (el) => el.price > priceStart.value && el.price < priceEnd.value
