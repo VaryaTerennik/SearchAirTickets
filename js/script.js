@@ -13,7 +13,6 @@ window.addEventListener("DOMContentLoaded", () => {
   let resultData = "";
 
   getData("http://localhost:3000/result").then((res) => {
-    console.log(res);
     resultData = res.flights.map((item) => {
       const toData = item.flight.legs[0];
       const backData = item.flight.legs[1];
@@ -45,21 +44,24 @@ window.addEventListener("DOMContentLoaded", () => {
           }
 
           let departureAirport = segments[0].departureAirport.caption;
+          let departureAirportUid = segments[0].departureAirport.uid;
           let arrivalAirport = segments[1].arrivalAirport.caption;
+          let arrivalAirportUid = segments[1].arrivalAirport.uid;
           let departureDate = segments[0].departureDate;
           let arrivalDate = segments[1].arrivalDate;
           let airline = "";
           if (segments[0].airline.caption === segments[1].airline.caption) {
             airline = segments[0].airline.caption;
           } else {
-            airline = `${segments[0].airline.caption} и ${segments[1].airline.caption}`;
-            console.log("Два перевозчика");
+            airline = `${segments[0].airline.caption}, ${segments[1].airline.caption}`;
           }
           return {
             departureCity,
             arrivalCity,
             departureAirport,
+            departureAirportUid,
             arrivalAirport,
+            arrivalAirportUid,
             airline,
             departureDate,
             arrivalDate,
@@ -79,6 +81,8 @@ window.addEventListener("DOMContentLoaded", () => {
             arrivalCity = segments[0].arrivalCity.caption;
           }
           let departureAirport = segments[0].departureAirport.caption;
+          let departureAirportUid = segments[0].departureAirport.uid;
+          let arrivalAirportUid = segments[0].arrivalAirport.uid;
           let arrivalAirport = segments[0].arrivalAirport.caption;
           let departureDate = segments[0].departureDate;
           let arrivalDate = segments[0].arrivalDate;
@@ -87,7 +91,9 @@ window.addEventListener("DOMContentLoaded", () => {
             departureCity,
             arrivalCity,
             departureAirport,
+            departureAirportUid,
             arrivalAirport,
+            arrivalAirportUid,
             airline,
             departureDate,
             arrivalDate,
@@ -101,7 +107,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
       return { to, back, price, carrier };
     });
-    console.log(resultData);
     createFlightCard(resultData);
     createListAirlines(resultData);
     return resultData;
@@ -111,10 +116,12 @@ window.addEventListener("DOMContentLoaded", () => {
     constructor(data, parentSelector) {
       this.departureCityTo = data.to.departureCity;
       this.departureAirportTo = data.to.departureAirport;
+      this.departureAirportUidTo = data.to.departureAirportUid;
       this.arrivalDateTo = data.to.arrivalDate;
       this.departureDateTo = data.to.departureDate;
       this.arrivalCityTo = data.to.arrivalCity;
       this.arrivalAirportTo = data.to.arrivalAirport;
+      this.arrivalAirportUidTo = data.to.arrivalAirportUid;
       this.transferTo = data.to.transfer;
       this.airlineTo = data.to.airline;
       this.travelTimeTo = this.calcTravelTime(
@@ -128,10 +135,12 @@ window.addEventListener("DOMContentLoaded", () => {
 
       this.departureCityBack = data.back.departureCity;
       this.departureAirportBack = data.back.departureAirport;
+      this.departureAirportUidBack = data.back.departureAirportUid;
       this.arrivalDateBack = data.back.arrivalDate;
       this.departureDateBack = data.back.departureDate;
       this.arrivalCityBack = data.back.arrivalCity;
       this.arrivalAirportBack = data.back.arrivalAirport;
+      this.arrivalAirportUidBack = data.back.arrivalAirportUid;
       this.transferBack = data.back.transfer;
       this.airlineBack = data.back.airline;
       this.travelTimeBack = this.calcTravelTime(
@@ -219,10 +228,12 @@ window.addEventListener("DOMContentLoaded", () => {
           <div class="flight__info-city-group">
                 <div class="flight__info-city">${this.departureCityTo}</div>
                 <div class="flight__info-city">${this.departureAirportTo}</div>
+                <div class="flight__info-city">(${this.departureAirportUidTo})</div>
             </div>
             <div class="flight__info-city-group">
                 <div class="flight__info-city">${this.arrivalCityTo}</div>
                 <div class="flight__info-city">${this.arrivalAirportTo}</div>
+                <div class="flight__info-city">(${this.arrivalAirportUidTo})</div>
             </div>
           </div>
           <div class="flight__info-times">
@@ -238,10 +249,12 @@ window.addEventListener("DOMContentLoaded", () => {
         <div class="flight__info-city-group">
             <div class="flight__info-city">${this.departureCityBack}</div>
             <div class="flight__info-city">${this.departureAirportBack}</div>
+            <div class="flight__info-city">(${this.departureAirportUidBack})</div>
         </div>
         <div class ="flight__info-city-group">
             <div class="flight__info-city">${this.arrivalCityBack}</div>
             <div class="flight__info-city">${this.arrivalAirportBack}</div>
+            <div class="flight__info-city">(${this.arrivalAirportUidBack})</div>
         </div>
           </div>
           <div class="flight__info-times">
@@ -270,7 +283,6 @@ window.addEventListener("DOMContentLoaded", () => {
       let collec = { carrier: item.carrier, price: item.price };
       return collec;
     });
-    console.log(res);
 
     const groupBy = res.reduce((acc, cur) => {
       acc[cur.carrier] = acc[cur.carrier] || {
@@ -282,19 +294,19 @@ window.addEventListener("DOMContentLoaded", () => {
     }, {});
 
     const groupList = Object.values(groupBy);
-    console.log(groupList);
 
     const parent = document.querySelector(".nav__item-airlines-wrapper");
 
     groupList.map((item) => {
       const template = document.createElement("div");
+      const minPrice = Math.min.apply(null, item.prices);
       template.classList.add("item__airline");
       template.innerHTML = `
       <label class="item__airline"> 
         <input type="checkbox" id="airline" />
           <span>${item.carrier}</span>
-          <span></span>
       </label>
+      <span> От ${minPrice} руб.</span>
       `;
       parent.append(template);
     });
@@ -306,7 +318,6 @@ window.addEventListener("DOMContentLoaded", () => {
         flights.innerHTML = "";
         let target = e.target;
         let parent = target.closest(".item__airline");
-        console.log(parent.textContent.replace(/\s+/g, ""));
 
         if (item.checked == true) {
           const result = resultData.filter(
@@ -314,7 +325,6 @@ window.addEventListener("DOMContentLoaded", () => {
               el.carrier.replace(/\s+/g, "") ==
               parent.textContent.replace(/\s+/g, "")
           );
-          console.log(result);
           createFlightCard(result);
         } else {
           flights.innerHTML = "";
