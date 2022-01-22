@@ -14,42 +14,43 @@
   <body>
     <main class="main">
       <aside class="nav">
+        <div class="nav__empty-block"></div>
         <div class="nav__item">
           <h3>Сортировать</h3>
-          <ul>
+          <ul class="nav__item-filter-first">
             <li>
               <label>
                 <input type="radio" name="sort-one" id="price-increase" />
-                <span>По возрастанию цены</span>
+                <span>- по возрастанию цены</span>
               </label>
             </li>
             <li>
               <label>
                 <input type="radio" name="sort-one" id="price-decrease" />
-                <span>По убыванию цены</span>
+                <span>- по убыванию цены</span>
               </label>
             </li>
             <li>
               <label
                 ><input type="radio" name="sort-one" id="sort-traveltime" />
-                <span>По времени в пути</span>
+                <span>- по времени в пути</span>
               </label>
             </li>
           </ul>
         </div>
         <div class="nav__item">
           <h3>Фильтровать</h3>
-          <ul>
+          <ul class="nav__item-filter-second">
             <li>
               <label>
                 <input type="checkbox" id="transfer-one" />
-                <span>Одна пересадка</span>
+                <span>- 1 пересадка</span>
               </label>
             </li>
             <li>
               <label>
                 <input type="checkbox" id="transfer-none" />
-                <span>Без пересадок</span>
+                <span>- без пересадок</span>
               </label>
             </li>
           </ul>
@@ -78,11 +79,12 @@
             <ul class="nav__item-airlines-wrapper"></ul>
           </div>
         </div>
+        <div class="nav__empty-block nav__empty-block_big"></div>
       </aside>
       <section class="results">
         <div class="flights"></div>
       </section>
     </main>
-    <script src="js/script.js"></script>
+    <script src="js/script copy.js"></script>
   </body>
 </html>

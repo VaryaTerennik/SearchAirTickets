@@ -9,10 +9,53 @@
 
 .nav {
   width: 30vw;
+  position: fixed;
 }
 
 .nav__item li {
   list-style: none;
+}
+
+.nav__empty-block {
+  width: 70%;
+  height: 50px;
+  background-color: rgb(209, 204, 204);
+}
+
+.nav__empty-block_big {
+  height: 200px;
+}
+
+.nav__item h3 {
+  margin-left: 40px;
+}
+
+.nav__item-price {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav__item-price lable {
+  margin: 15px 40px;
+}
+
+.nav__item-price lable input {
+  width: 250px;
+}
+
+.item__airline {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 300px;
+  margin-top: 5px;
+}
+
+.item__airline-title {
+  white-space: nowrap;
+  width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .results {
@@ -20,6 +63,8 @@
   display: flex;
   flex-wrap: nowrap;
   justify-content: start;
+  position: relative;
+  left: 30vw;
 }
 
 .flights {
@@ -78,6 +123,7 @@
   width: 100%;
   align-content: start;
   padding-bottom: 10px;
+  padding-left: 50px;
 }
 .flight__info-transfer::before,
 .flight__info-transfer::after {

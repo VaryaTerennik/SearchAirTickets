@@ -364,10 +364,27 @@ window.addEventListener("DOMContentLoaded", () => {
   const priceEnd = document.querySelector("#price-end");
   const flights = document.querySelector(".flights");
 
-  let one = filterPriceUp.addEventListener("change", () => {
+  const filterFirst = document.querySelector(".nav__item-filter-first");
+  const filterSecond = document.querySelector(".nav__item-filter-second");
+  const nav = document.querySelector(".nav");
+
+  let resultFilter = "";
+
+  nav.addEventListener("change", (e) => {
+    let arr = "";
+
+    if (resultFilter == "") {
+      arr = resultData;
+    } else {
+      arr = resultFilter;
+    }
+
     flights.innerHTML = "";
-    if (filterPriceUp.checked == true) {
-      const mapped = resultData.map(function (el, i) {
+    const tfilprice = e.target;
+    console.log(tfilprice.id);
+
+    if (tfilprice.id == filterPriceUp.id) {
+      const mapped = arr.map(function (el, i) {
         return { index: i, value: el.price };
       });
 
@@ -381,22 +398,12 @@ window.addEventListener("DOMContentLoaded", () => {
         return 0;
       });
 
-      const result = mapped.map(function (el) {
-        return resultData[el.index];
+      resultFilter = mapped.map(function (el) {
+        return arr[el.index];
       });
-      createFlightCard(result);
-    } else {
-      flights.innerHTML = "";
-      createFlightCard(resultData);
-    }
-  });
-
-  console.log(one);
-
-  filterPriceDown.addEventListener("change", () => {
-    flights.innerHTML = "";
-    if (filterPriceDown.checked == true) {
-      const mapped = resultData.map(function (el, i) {
+      createFlightCard(resultFilter);
+    } else if (tfilprice.id == filterPriceDown.id) {
+      const mapped = arr.map(function (el, i) {
         return { index: i, value: el.price };
       });
 
@@ -410,65 +417,12 @@ window.addEventListener("DOMContentLoaded", () => {
         return 0;
       });
 
-      const result = mapped.map(function (el) {
-        return resultData[el.index];
+      resultFilter = mapped.map(function (el) {
+        return arr[el.index];
       });
-      createFlightCard(result);
-    } else {
-      flights.innerHTML = "";
-      createFlightCard(resultData);
-    }
-  });
-
-  filterTransferOne.addEventListener("change", () => {
-    flights.innerHTML = "";
-    if (filterTransferOne.checked == true) {
-      const result = resultData.filter(
-        (el) => el.to.transfer > 0 && el.back.transfer > 0
-      );
-      createFlightCard(result);
-    } else {
-      flights.innerHTML = "";
-      createFlightCard(resultData);
-    }
-  });
-
-  filterTransferNone.addEventListener("change", () => {
-    flights.innerHTML = "";
-    if (filterTransferNone.checked == true) {
-      const result = resultData.filter(
-        (el) => el.to.transfer < 1 && el.back.transfer < 1
-      );
-      createFlightCard(result);
-    } else {
-      flights.innerHTML = "";
-      createFlightCard(resultData);
-    }
-  });
-
-  filterPriceDiff.addEventListener("input", (e) => {
-    flights.innerHTML = "";
-    let target = e.target;
-    if (target == priceStart || target == priceEnd) {
-      const result = resultData.filter(
-        (el) => el.price > priceStart.value && el.price < priceEnd.value
-      );
-      if (result.length == 0) {
-        flights.textContent =
-          "Перелетов с такими параметрами не найдено. Введите другую сумму";
-      } else {
-        createFlightCard(result);
-      }
-    } else {
-      flights.innerHTML = "";
-      createFlightCard(resultData);
-    }
-  });
-
-  filterTripDuration.addEventListener("change", () => {
-    flights.innerHTML = "";
-    if (filterTripDuration.checked == true) {
-      const mapped = resultData.map(function (el, i) {
+      createFlightCard(resultFilter);
+    } else if (tfilprice.id == filterTripDuration.id) {
+      const mapped = arr.map(function (el, i) {
         return {
           index: i,
           value:
@@ -489,10 +443,40 @@ window.addEventListener("DOMContentLoaded", () => {
         return 0;
       });
 
-      const result = mapped.map(function (el) {
-        return resultData[el.index];
+      resultFilter = mapped.map(function (el) {
+        return arr[el.index];
       });
-      createFlightCard(result);
+      createFlightCard(resultFilter);
+    } else if (tfilprice.id == filterTransferOne.id) {
+      resultFilter = arr.filter(
+        (el) => el.to.transfer > 0 && el.back.transfer > 0
+      );
+      createFlightCard(resultFilter);
+    } else if (tfilprice.id == filterTransferNone.id) {
+      resultFilter = resultData.filter(
+        (el) => el.to.transfer < 1 && el.back.transfer < 1
+      );
+      createFlightCard(resultFilter);
+    } else {
+      flights.innerHTML = "";
+      resultFilter = resultData;
+      createFlightCard(resultFilter);
+    }
+  });
+
+  filterPriceDiff.addEventListener("input", (e) => {
+    flights.innerHTML = "";
+    let target = e.target;
+    if (target == priceStart || target == priceEnd) {
+      const result = resultData.filter(
+        (el) => el.price > priceStart.value && el.price < priceEnd.value
+      );
+      if (result.length == 0) {
+        flights.textContent =
+          "Перелетов с такими параметрами не найдено. Введите другую сумму";
+      } else {
+        createFlightCard(result);
+      }
     } else {
       flights.innerHTML = "";
       createFlightCard(resultData);
