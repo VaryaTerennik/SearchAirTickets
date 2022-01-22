@@ -166,24 +166,24 @@ window.addEventListener("DOMContentLoaded", () => {
         .slice(0, -3);
 
       function getWeekDay(date) {
-        let days = ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"];
+        let days = ["вс", "пн", "вт", "ср", "чт", "пт", "сб"];
         return days[new Date(Date.parse(date)).getDay()];
       }
 
       function getMounthName(date) {
         let days = [
-          "янв",
-          "фев",
-          "мар",
-          "апр",
-          "май",
-          "июн",
-          "июл",
-          "авг",
-          "сен",
-          "окт",
-          "ноя",
-          "дек",
+          "янв.",
+          "фев.",
+          "мар.",
+          "апр.",
+          "май.",
+          "июн.",
+          "июл.",
+          "авг.",
+          "сен.",
+          "окт.",
+          "ноя.",
+          "дек.",
         ];
         return days[new Date(Date.parse(date)).getMonth()];
       }
@@ -219,7 +219,7 @@ window.addEventListener("DOMContentLoaded", () => {
       template.classList.add("flight");
       template.innerHTML = `
       <div class="flight__header">
-      <div class="flight__price">${this.price} РУБ</div>
+      <div class="flight__price">${this.price} &#x20BD</div>
       <div class="flight__price-text">Стоимость для одного взрослого пассажира</div>
       </div>
       <div class="flight__content">
@@ -228,39 +228,51 @@ window.addEventListener("DOMContentLoaded", () => {
           <div class="flight__info-city-group">
                 <div class="flight__info-city">${this.departureCityTo}</div>
                 <div class="flight__info-city">${this.departureAirportTo}</div>
-                <div class="flight__info-city">(${this.departureAirportUidTo})</div>
+                <div class="flight__info-city flight__info-city_blue">(${this.departureAirportUidTo})</div>
             </div>
+            <div class="right-arrow"></div>
             <div class="flight__info-city-group">
                 <div class="flight__info-city">${this.arrivalCityTo}</div>
                 <div class="flight__info-city">${this.arrivalAirportTo}</div>
-                <div class="flight__info-city">(${this.arrivalAirportUidTo})</div>
+                <div class="flight__info-city flight__info-city_blue">(${this.arrivalAirportUidTo})</div>
             </div>
           </div>
           <div class="flight__info-times">
-            <div class="flight__info-time">${this.departureDateToMod.bindTime} ${this.departureDateToMod.bindDate} ${this.departureDateToMod.bindMounth} ${this.departureDateToMod.bindDay}</div>
-            <div class="flight__info-time">${this.travelTimeTo.hours}ч ${this.travelTimeTo.minutes} мин</div>
-            <div class="flight__info-time">${this.arrivalDateToMod.bindTime} ${this.arrivalDateToMod.bindDate} ${this.arrivalDateToMod.bindMounth} ${this.arrivalDateToMod.bindDay}</div>
+            <div class="flight__info-time">
+            <span class="flight__info-time-time">${this.departureDateToMod.bindTime} </span>
+            <span class="flight__info-time-date flight__info-city_blue">${this.departureDateToMod.bindDate} ${this.departureDateToMod.bindMounth} ${this.departureDateToMod.bindDay}</span>
+            </div>
+            <div class="flight__info-time flight__info-time_clock">${this.travelTimeTo.hours}ч ${this.travelTimeTo.minutes} мин</div>
+            <div class="flight__info-time">
+            <span class="flight__info-time-time">${this.arrivalDateToMod.bindTime} </span>
+            <span class="flight__info-time-date flight__info-city_blue">${this.arrivalDateToMod.bindDate} ${this.arrivalDateToMod.bindMounth} ${this.arrivalDateToMod.bindDay}</span>
+             </div>
           </div>
           <div class="flight__info-transfer">${this.transferTo} пересадка</div>
-          <div class="flight__info-airlines">Рейс выполняет:${this.airlineTo}</div>
+          <div class="flight__info-airlines flight__info-airlines_border">Рейс выполняет:${this.airlineTo}</div>
         </div>
         <div class="flight__info">
         <div class="flight__info-cities">
         <div class="flight__info-city-group">
             <div class="flight__info-city">${this.departureCityBack}</div>
             <div class="flight__info-city">${this.departureAirportBack}</div>
-            <div class="flight__info-city">(${this.departureAirportUidBack})</div>
+            <div class="flight__info-city flight__info-city_blue">(${this.departureAirportUidBack})</div>
         </div>
+        <div class="right-arrow"></div>
         <div class ="flight__info-city-group">
             <div class="flight__info-city">${this.arrivalCityBack}</div>
             <div class="flight__info-city">${this.arrivalAirportBack}</div>
-            <div class="flight__info-city">(${this.arrivalAirportUidBack})</div>
+            <div class="flight__info-city flight__info-city_blue">(${this.arrivalAirportUidBack})</div>
         </div>
           </div>
           <div class="flight__info-times">
-            <div class="flight__info-time">${this.departureDateBackMod.bindTime} ${this.departureDateBackMod.bindDate} ${this.departureDateBackMod.bindMounth} ${this.departureDateBackMod.bindDay}</div>
-            <div class="flight__info-time">${this.travelTimeBack.hours}ч ${this.travelTimeBack.minutes} мин</div>
-            <div class="flight__info-time">${this.arrivalDateBackMod.bindTime} ${this.arrivalDateBackMod.bindDate} ${this.arrivalDateBackMod.bindMounth} ${this.arrivalDateBackMod.bindDay}</div>
+            <div class="flight__info-time">
+            <span class="flight__info-time-time">${this.departureDateBackMod.bindTime} </span>
+            <span class="flight__info-time-date flight__info-city_blue">${this.departureDateBackMod.bindDate} ${this.departureDateBackMod.bindMounth} ${this.departureDateBackMod.bindDay}</span></div>
+            <div class="flight__info-time flight__info-time_clock">${this.travelTimeBack.hours}ч ${this.travelTimeBack.minutes} мин</div>
+            <div class="flight__info-time">
+            <span class="flight__info-time-time">${this.arrivalDateBackMod.bindTime} </span>
+            <span class="flight__info-time-date flight__info-city_blue">${this.arrivalDateBackMod.bindDate} ${this.arrivalDateBackMod.bindMounth} ${this.arrivalDateBackMod.bindDay}</span></div>
           </div>
           <div class="flight__info-transfer">${this.transferBack} пересадка</div>
           <div class="flight__info-airlines">Рейс выполняет:${this.airlineBack}</div>
@@ -298,7 +310,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const parent = document.querySelector(".nav__item-airlines-wrapper");
 
     groupList.map((item) => {
-      const template = document.createElement("div");
+      const template = document.createElement("li");
       const minPrice = Math.min.apply(null, item.prices);
       template.classList.add("item__airline");
       template.innerHTML = `
