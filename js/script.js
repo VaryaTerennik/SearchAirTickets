@@ -12,6 +12,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
   let resultData = "";
 
+  //Запрос данных с сервера.
+  //Возвращает все данные по перелету туда(объект), все данные по перелету обратно(объект), цену и перевозчика
+
   getData("http://localhost:3000/result").then((res) => {
     resultData = res.flights.map((item) => {
       const toData = item.flight.legs[0];
@@ -112,6 +115,8 @@ window.addEventListener("DOMContentLoaded", () => {
     return resultData;
   });
 
+  //Создание Карточки каждого перелета
+
   class FlightCard {
     constructor(data, parentSelector) {
       this.departureCityTo = data.to.departureCity;
@@ -159,6 +164,8 @@ window.addEventListener("DOMContentLoaded", () => {
       this.departureDateToMod = this.getBindDate(this.departureDateTo);
     }
 
+    //Приведение даты к нужному формату
+
     getBindDate(d) {
       const bindDate = new Date(Date.parse(d)).getDate();
       const bindTime = new Date(Date.parse(d))
@@ -199,6 +206,8 @@ window.addEventListener("DOMContentLoaded", () => {
       };
     }
 
+    //Расчет времени в пути. Имеется ввиду время в один конец
+
     calcTravelTime(a, b) {
       const t = Date.parse(a) - Date.parse(b),
         days = Math.floor(t / (1000 * 60 * 60 * 24)),
@@ -213,6 +222,8 @@ window.addEventListener("DOMContentLoaded", () => {
       };
       return travelTime;
     }
+
+    //Отрисовка одной карточки
 
     render() {
       const template = document.createElement("div");
@@ -364,6 +375,9 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  //функция создания всех карточек. Принимает: отфильтрованный массив перелетов,
+  //кол-во страниц, которое может быть в этом массиве, с учетом того, что выводим по 2 карточки, счетчик страниц
+
   function createFlightCard(arr, arrPages, pageCount) {
     let max = arrPages[pageCount].index;
     const newShowContent = document.querySelector(".result__button");
@@ -388,6 +402,10 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     }
   }
+
+  //функция создания списка авиакомпаний для фильтрации.
+  //Генерит их на основе полного списка перелетов, берет оттуда данные о перевозчиках,
+  //группирует по названиям и выводит мин.стоимость
 
   function createListAirlines(arr) {
     const res = arr.map((item) => {
@@ -423,6 +441,8 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  //Список фильтров. По умолчанию стоит сортировка по возрастанию цены
+
   const flights = document.querySelector(".flights");
   const nav = document.querySelector(".nav");
 
@@ -438,6 +458,10 @@ window.addEventListener("DOMContentLoaded", () => {
   let arrTransfer = [];
 
   let pageCount = 0;
+
+  //функция фильтрации. Проверяет исходный массив на соответствие фильтрам и
+  //создает новый массив с отфильтрованными перелетами
+  //создает массив страниц с соответствующими индексами элементов
 
   function renderFilterPage() {
     let arrFilterCard = [];
@@ -525,6 +549,9 @@ window.addEventListener("DOMContentLoaded", () => {
       createFlightCard(arrFilterCard, startArray, pageCount);
     }
 
+    //каждый раз при фильтрации удаляю и создаю заново кнопку "Показать еще", чтобы
+    // решить проблему дублирования обработчиков и на ней был только один обработчик по клику
+
     let showContent = document.querySelector(".result__button");
     showContent.parentNode.removeChild(showContent);
 
@@ -534,6 +561,8 @@ window.addEventListener("DOMContentLoaded", () => {
     const resultHtml = document.querySelector(".results__container");
     resultHtml.append(newShowContent);
 
+    //функция показывает следующие 2 карточки
+
     function show() {
       pageCount++;
       createFlightCard(arrFilterCard, startArray, pageCount);
@@ -541,6 +570,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
     newShowContent.addEventListener("click", show);
   }
+
+  //навешиваю обработчики событий на фильтры и фильтрую
 
   nav.addEventListener("change", (e) => {
     let value = e.target.value;
@@ -550,19 +581,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
     if (name == "airline" && checked == true) {
       arrAirlines.push(value);
-      console.log(arrAirlines);
       filters[name] = arrAirlines;
     } else if (name == "airline" && checked == false) {
       let s = arrAirlines.findIndex((el) => el === value);
-      console.log(s);
       arrAirlines.splice(s, 1);
     } else if (name == "transfer" && checked == true) {
       arrTransfer.push(value);
-      console.log(arrTransfer);
       filters[name] = arrTransfer;
     } else if (name == "transfer" && checked == false) {
       let s = arrTransfer.findIndex((el) => el === value);
-      console.log(s);
       arrTransfer.splice(s, 1);
     } else {
       filters[name] = value;
