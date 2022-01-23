@@ -62,13 +62,36 @@
   width: 70vw;
   display: flex;
   flex-wrap: nowrap;
+  flex-direction: column;
   justify-content: start;
   position: relative;
   left: 30vw;
 }
 
-.flights {
+.results__container {
   width: 60%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: start;
+  position: relative;
+}
+
+.result__button {
+  height: 40px;
+  width: 300px;
+  font-size: 1.2em;
+  justify-self: center;
+  margin: auto;
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+.flights {
+  width: 100%;
 }
 .flight {
   width: 100%;
@@ -112,34 +135,51 @@
 }
 
 .flight__info-transfer {
-  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 35px;
+  justify-content: center;
+  margin-bottom: 15px;
+  font-weight: 500;
+  margin-top: 10px;
+}
+.flight__info-transfer-content {
+  display: flex;
+  flex-direction: row;
+  height: 35px;
+  justify-content: center;
+}
+
+.flight__info-transfer-text {
   margin-bottom: 15px;
   color: rgb(252, 160, 86);
   font-weight: 500;
   margin-top: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
+
+.flight__empty {
+  width: 35%;
+  height: 2px;
+  background-color: rgb(197, 196, 196);
+  margin-top: 1em;
+}
+
+.flight__empty_new {
+  width: 30px;
+  height: 2px;
+  background-color: rgb(197, 196, 196);
+  margin-top: 1em;
+}
+
 .flight__info-airlines {
   display: flex;
   width: 100%;
   align-content: start;
   padding-bottom: 10px;
   padding-left: 50px;
-}
-.flight__info-transfer::before,
-.flight__info-transfer::after {
-  content: "";
-  width: 300%;
-  height: 2px;
-  background-color: rgb(197, 196, 196);
-  display: inline-flex;
-  position: absolute;
-  top: 10px;
-  right: 100px;
-}
-
-.flight__info-transfer::after {
-  top: 10px;
-  left: 100px;
 }
 
 .right-arrow {
@@ -256,4 +296,9 @@
   border: none;
   font-size: 1.2em;
   text-transform: uppercase;
+}
+
+.flight__button:hover {
+  background-color: rgb(192, 116, 54);
+  cursor: pointer;
 }

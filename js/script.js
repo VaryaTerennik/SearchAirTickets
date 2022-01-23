@@ -23,7 +23,7 @@ window.addEventListener("DOMContentLoaded", () => {
         let transfersSum = legData.segments.length - 1;
         let transfer = "";
         if (transfersSum === 0) {
-          transfer = "";
+          transfer = 0;
         } else {
           transfer = transfersSum;
         }
@@ -101,14 +101,14 @@ window.addEventListener("DOMContentLoaded", () => {
           };
         }
       }
-
       const to = getDataLeg(toData);
       const back = getDataLeg(backData);
 
       return { to, back, price, carrier };
     });
-    createFlightCard(resultData);
+
     createListAirlines(resultData);
+    renderFilterPage();
     return resultData;
   });
 
@@ -228,54 +228,134 @@ window.addEventListener("DOMContentLoaded", () => {
           <div class="flight__info-city-group">
                 <div class="flight__info-city">${this.departureCityTo}</div>
                 <div class="flight__info-city">${this.departureAirportTo}</div>
-                <div class="flight__info-city flight__info-city_blue">(${this.departureAirportUidTo})</div>
+                <div class="flight__info-city flight__info-city_blue">(${
+                  this.departureAirportUidTo
+                })</div>
             </div>
             <div class="right-arrow"></div>
             <div class="flight__info-city-group">
                 <div class="flight__info-city">${this.arrivalCityTo}</div>
                 <div class="flight__info-city">${this.arrivalAirportTo}</div>
-                <div class="flight__info-city flight__info-city_blue">(${this.arrivalAirportUidTo})</div>
+                <div class="flight__info-city flight__info-city_blue">(${
+                  this.arrivalAirportUidTo
+                })</div>
             </div>
           </div>
           <div class="flight__info-times">
             <div class="flight__info-time">
-            <span class="flight__info-time-time">${this.departureDateToMod.bindTime} </span>
-            <span class="flight__info-time-date flight__info-city_blue">${this.departureDateToMod.bindDate} ${this.departureDateToMod.bindMounth} ${this.departureDateToMod.bindDay}</span>
+            <span class="flight__info-time-time">${
+              this.departureDateToMod.bindTime
+            } </span>
+            <span class="flight__info-time-date flight__info-city_blue">${
+              this.departureDateToMod.bindDate
+            } ${this.departureDateToMod.bindMounth} ${
+        this.departureDateToMod.bindDay
+      }</span>
             </div>
-            <div class="flight__info-time flight__info-time_clock">${this.travelTimeTo.hours}ч ${this.travelTimeTo.minutes} мин</div>
+            <div class="flight__info-time flight__info-time_clock">${
+              this.travelTimeTo.days > 0
+                ? this.travelTimeTo.days +
+                  " д " +
+                  this.travelTimeTo.hours +
+                  " ч " +
+                  this.travelTimeTo.minutes +
+                  " мин "
+                : this.travelTimeTo.hours +
+                  " ч " +
+                  this.travelTimeTo.minutes +
+                  " мин "
+            }</div>
             <div class="flight__info-time">
-            <span class="flight__info-time-time">${this.arrivalDateToMod.bindTime} </span>
-            <span class="flight__info-time-date flight__info-city_blue">${this.arrivalDateToMod.bindDate} ${this.arrivalDateToMod.bindMounth} ${this.arrivalDateToMod.bindDay}</span>
+            <span class="flight__info-time-time">${
+              this.arrivalDateToMod.bindTime
+            } </span>
+            <span class="flight__info-time-date flight__info-city_blue">${
+              this.arrivalDateToMod.bindDate
+            } ${this.arrivalDateToMod.bindMounth} ${
+        this.arrivalDateToMod.bindDay
+      }</span>
              </div>
           </div>
-          <div class="flight__info-transfer">${this.transferTo} пересадка</div>
-          <div class="flight__info-airlines flight__info-airlines_border">Рейс выполняет: ${this.airlineTo}</div>
+          <div class="flight__info-transfer">
+            <div class="flight__empty"></div>
+            <div class="flight__info-transfer-content">${
+              this.transferTo > 0
+                ? `<div class="flight__info-transfer-text">${
+                    this.transferTo + " пересадка"
+                  }</div>`
+                : `<div class="flight__empty flight__empty_new"></div>`
+            }</div>
+            <div class="flight__empty"></div>
+          </div>
+          <div class="flight__info-airlines flight__info-airlines_border">Рейс выполняет: ${
+            this.airlineTo
+          }</div>
         </div>
         <div class="flight__info">
         <div class="flight__info-cities">
         <div class="flight__info-city-group">
             <div class="flight__info-city">${this.departureCityBack}</div>
             <div class="flight__info-city">${this.departureAirportBack}</div>
-            <div class="flight__info-city flight__info-city_blue">(${this.departureAirportUidBack})</div>
+            <div class="flight__info-city flight__info-city_blue">(${
+              this.departureAirportUidBack
+            })</div>
         </div>
         <div class="right-arrow"></div>
         <div class ="flight__info-city-group">
             <div class="flight__info-city">${this.arrivalCityBack}</div>
             <div class="flight__info-city">${this.arrivalAirportBack}</div>
-            <div class="flight__info-city flight__info-city_blue">(${this.arrivalAirportUidBack})</div>
+            <div class="flight__info-city flight__info-city_blue">(${
+              this.arrivalAirportUidBack
+            })</div>
         </div>
           </div>
           <div class="flight__info-times">
             <div class="flight__info-time">
-            <span class="flight__info-time-time">${this.departureDateBackMod.bindTime} </span>
-            <span class="flight__info-time-date flight__info-city_blue">${this.departureDateBackMod.bindDate} ${this.departureDateBackMod.bindMounth} ${this.departureDateBackMod.bindDay}</span></div>
-            <div class="flight__info-time flight__info-time_clock">${this.travelTimeBack.hours}ч ${this.travelTimeBack.minutes} мин</div>
+            <span class="flight__info-time-time">${
+              this.departureDateBackMod.bindTime
+            } </span>
+            <span class="flight__info-time-date flight__info-city_blue">${
+              this.departureDateBackMod.bindDate
+            } ${this.departureDateBackMod.bindMounth} ${
+        this.departureDateBackMod.bindDay
+      }</span></div>
+            <div class="flight__info-time flight__info-time_clock">${
+              this.travelTimeBack.days > 0
+                ? this.travelTimeBack.days +
+                  " д " +
+                  this.travelTimeBack.hours +
+                  " ч " +
+                  this.travelTimeBack.minutes +
+                  " мин "
+                : this.travelTimeBack.hours +
+                  " ч " +
+                  this.travelTimeBack.minutes +
+                  " мин "
+            }</div>
             <div class="flight__info-time">
-            <span class="flight__info-time-time">${this.arrivalDateBackMod.bindTime} </span>
-            <span class="flight__info-time-date flight__info-city_blue">${this.arrivalDateBackMod.bindDate} ${this.arrivalDateBackMod.bindMounth} ${this.arrivalDateBackMod.bindDay}</span></div>
+            <span class="flight__info-time-time">${
+              this.arrivalDateBackMod.bindTime
+            } </span>
+            <span class="flight__info-time-date flight__info-city_blue">${
+              this.arrivalDateBackMod.bindDate
+            } ${this.arrivalDateBackMod.bindMounth} ${
+        this.arrivalDateBackMod.bindDay
+      }</span></div>
           </div>
-          <div class="flight__info-transfer">${this.transferBack} пересадка</div>
-          <div class="flight__info-airlines">Рейс выполняет: ${this.airlineBack}</div>
+          <div class="flight__info-transfer">
+            <div class="flight__empty"></div>
+            <div class="flight__info-transfer-content">${
+              this.transferBack > 0
+                ? `<div class="flight__info-transfer-text">${
+                    this.transferBack + " пересадка"
+                  }</div>`
+                : `<div class="flight__empty flight__empty_new"></div>`
+            }</div>
+            <div class="flight__empty"></div>
+          </div>
+          <div class="flight__info-airlines">Рейс выполняет: ${
+            this.airlineBack
+          }</div>
         </div>
       </div>
       <button class="flight__button">Выбрать</button>
@@ -284,10 +364,29 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function createFlightCard(arr) {
-    arr.map((item) => {
-      new FlightCard(item, ".flights").render();
-    });
+  function createFlightCard(arr, arrPages, pageCount) {
+    let max = arrPages[pageCount].index;
+    const newShowContent = document.querySelector(".result__button");
+    if (pageCount == arrPages.length - 1) {
+      newShowContent.classList.add("hide");
+    } else {
+      newShowContent.classList.remove("hide");
+    }
+    if (pageCount > 0) {
+      arr.map((item, index) => {
+        let p = max - 2;
+        if (index < max && index >= p) {
+          new FlightCard(item, ".flights").render();
+        }
+      });
+    } else {
+      flights.innerHTML = "";
+      arr.map((item, index) => {
+        if (index < max) {
+          new FlightCard(item, ".flights").render();
+        }
+      });
+    }
   }
 
   function createListAirlines(arr) {
@@ -313,189 +412,162 @@ window.addEventListener("DOMContentLoaded", () => {
       const template = document.createElement("li");
       const minPrice = Math.min.apply(null, item.prices);
       template.classList.add("item__airline");
-      // let carrierName = "";
-      // if (item.carrier.length > 21) {
-      //   carrierName = item.carrier.substring(0, 13) + "...";
-      // } else {
-      //   carrierName = item.carrier;
-      // }
       template.innerHTML = `
       <label class="item__airline-title"> 
-        <input type="checkbox" id="airline" />
+        <input type="checkbox" name="airline" value="${item.carrier}" id="airline" />
           <span>- ${item.carrier}</span>
       </label>
       <div> от ${minPrice} р.</div>
       `;
       parent.append(template);
     });
-
-    const filterAirline = document.querySelectorAll("#airline");
-
-    filterAirline.forEach((item) => {
-      item.addEventListener("change", (e) => {
-        flights.innerHTML = "";
-        let target = e.target;
-        let parent = target.closest(".item__airline-title");
-
-        if (item.checked == true) {
-          const result = resultData.filter(
-            (el) =>
-              el.carrier.replace(/\s+/g, "") ==
-              parent.textContent
-                .replace(/\s+/g, "")
-                .substring(1, parent.textContent.length)
-          );
-          createFlightCard(result);
-        } else {
-          flights.innerHTML = "";
-          createFlightCard(resultData);
-        }
-      });
-    });
   }
 
-  const filterPriceUp = document.querySelector("#price-increase");
-  const filterPriceDown = document.querySelector("#price-decrease");
-  const filterTripDuration = document.querySelector("#sort-traveltime");
-  const filterTransferOne = document.querySelector("#transfer-one");
-  const filterTransferNone = document.querySelector("#transfer-none");
-  const filterPriceDiff = document.querySelector(".nav__item-price");
-  const priceStart = document.querySelector("#price-start");
-  const priceEnd = document.querySelector("#price-end");
   const flights = document.querySelector(".flights");
+  const nav = document.querySelector(".nav");
 
-  let one = filterPriceUp.addEventListener("change", () => {
-    flights.innerHTML = "";
-    if (filterPriceUp.checked == true) {
-      const mapped = resultData.map(function (el, i) {
-        return { index: i, value: el.price };
-      });
+  let filters = {
+    sort_by: "priceUp",
+    transfer: [],
+    price_from: 0,
+    price_to: 1000000,
+    airline: [],
+  };
 
-      mapped.sort(function (a, b) {
-        if (a.value > b.value) {
-          return 1;
-        }
-        if (a.value < b.value) {
-          return -1;
-        }
-        return 0;
-      });
+  let arrAirlines = [];
+  let arrTransfer = [];
 
-      const result = mapped.map(function (el) {
-        return resultData[el.index];
-      });
-      createFlightCard(result);
-    } else {
-      flights.innerHTML = "";
-      createFlightCard(resultData);
-    }
-  });
+  let pageCount = 0;
 
-  console.log(one);
+  function renderFilterPage() {
+    let arrFilterCard = [];
+    let startArray = [];
 
-  filterPriceDown.addEventListener("change", () => {
-    flights.innerHTML = "";
-    if (filterPriceDown.checked == true) {
-      const mapped = resultData.map(function (el, i) {
-        return { index: i, value: el.price };
-      });
-
-      mapped.sort(function (a, b) {
-        if (a.value < b.value) {
-          return 1;
-        }
-        if (a.value > b.value) {
-          return -1;
-        }
-        return 0;
-      });
-
-      const result = mapped.map(function (el) {
-        return resultData[el.index];
-      });
-      createFlightCard(result);
-    } else {
-      flights.innerHTML = "";
-      createFlightCard(resultData);
-    }
-  });
-
-  filterTransferOne.addEventListener("change", () => {
-    flights.innerHTML = "";
-    if (filterTransferOne.checked == true) {
-      const result = resultData.filter(
-        (el) => el.to.transfer > 0 && el.back.transfer > 0
-      );
-      createFlightCard(result);
-    } else {
-      flights.innerHTML = "";
-      createFlightCard(resultData);
-    }
-  });
-
-  filterTransferNone.addEventListener("change", () => {
-    flights.innerHTML = "";
-    if (filterTransferNone.checked == true) {
-      const result = resultData.filter(
-        (el) => el.to.transfer < 1 && el.back.transfer < 1
-      );
-      createFlightCard(result);
-    } else {
-      flights.innerHTML = "";
-      createFlightCard(resultData);
-    }
-  });
-
-  filterPriceDiff.addEventListener("input", (e) => {
-    flights.innerHTML = "";
-    let target = e.target;
-    if (target == priceStart || target == priceEnd) {
-      const result = resultData.filter(
-        (el) => el.price > priceStart.value && el.price < priceEnd.value
-      );
-      if (result.length == 0) {
-        flights.textContent =
-          "Перелетов с такими параметрами не найдено. Введите другую сумму";
-      } else {
-        createFlightCard(result);
+    resultData.map((item) => {
+      if (
+        (filters.transfer.length != 0
+          ? item.to.transfer == item.back.transfer &&
+            item.to.transfer ==
+              filters.transfer.find((el) => el == item.to.transfer) &&
+            item.back.transfer ==
+              filters.transfer.find((el) => el == item.back.transfer)
+          : item) &&
+        item.price >= filters.price_from &&
+        item.price <= filters.price_to &&
+        (filters.airline.length != 0
+          ? item.carrier == filters.airline.find((el) => el == item.carrier)
+          : item.carrier)
+      ) {
+        arrFilterCard.push(item);
       }
-    } else {
-      flights.innerHTML = "";
-      createFlightCard(resultData);
-    }
-  });
 
-  filterTripDuration.addEventListener("change", () => {
+      if (filters.sort_by == "priceUp") {
+        arrFilterCard.sort(function (a, b) {
+          if (a.price > b.price) {
+            return 1;
+          }
+          if (a.price < b.price) {
+            return -1;
+          }
+          return 0;
+        });
+      } else if (filters.sort_by == "priceDown") {
+        arrFilterCard.sort(function (a, b) {
+          if (a.price < b.price) {
+            return 1;
+          }
+          if (a.price > b.price) {
+            return -1;
+          }
+          return 0;
+        });
+      } else if (filters.sort_by == "timeTrip") {
+        const mapped = arrFilterCard.map(function (el, i) {
+          return {
+            index: i,
+            value:
+              Date.parse(el.to.arrivalDate) -
+              Date.parse(el.to.departureDate) +
+              (Date.parse(el.back.arrivalDate) -
+                Date.parse(el.back.departureDate)),
+          };
+        });
+
+        mapped.sort(function (a, b) {
+          if (a.value > b.value) {
+            return 1;
+          }
+          if (a.value < b.value) {
+            return -1;
+          }
+          return 0;
+        });
+
+        arrFilterCard = mapped.map(function (el) {
+          return arrFilterCard[el.index];
+        });
+      }
+    });
+    let pages = Math.ceil(arrFilterCard.length / 2);
+    let indexCount = 0;
+
+    for (let page = 1; page <= pages; page++) {
+      indexCount += 2;
+      let value = { page: page, index: indexCount };
+      startArray.push(value);
+    }
+
+    pageCount = 0;
     flights.innerHTML = "";
-    if (filterTripDuration.checked == true) {
-      const mapped = resultData.map(function (el, i) {
-        return {
-          index: i,
-          value:
-            Date.parse(el.to.arrivalDate) -
-            Date.parse(el.to.departureDate) +
-            (Date.parse(el.back.arrivalDate) -
-              Date.parse(el.back.departureDate)),
-        };
-      });
-
-      mapped.sort(function (a, b) {
-        if (a.value > b.value) {
-          return 1;
-        }
-        if (a.value < b.value) {
-          return -1;
-        }
-        return 0;
-      });
-
-      const result = mapped.map(function (el) {
-        return resultData[el.index];
-      });
-      createFlightCard(result);
+    if (arrFilterCard.length == 0) {
+      flights.textContent = "Перелетов с такими параметрами не найдено";
     } else {
-      flights.innerHTML = "";
-      createFlightCard(resultData);
+      createFlightCard(arrFilterCard, startArray, pageCount);
     }
+
+    let showContent = document.querySelector(".result__button");
+    showContent.parentNode.removeChild(showContent);
+
+    let newShowContent = document.createElement("button");
+    newShowContent.classList.add("result__button");
+    newShowContent.textContent = "Показать еще";
+    const resultHtml = document.querySelector(".results__container");
+    resultHtml.append(newShowContent);
+
+    function show() {
+      pageCount++;
+      createFlightCard(arrFilterCard, startArray, pageCount);
+    }
+
+    newShowContent.addEventListener("click", show);
+  }
+
+  nav.addEventListener("change", (e) => {
+    let value = e.target.value;
+    let checked = e.target.checked;
+    let type = e.target.type;
+    let name = e.target.getAttribute("name");
+
+    if (name == "airline" && checked == true) {
+      arrAirlines.push(value);
+      console.log(arrAirlines);
+      filters[name] = arrAirlines;
+    } else if (name == "airline" && checked == false) {
+      let s = arrAirlines.findIndex((el) => el === value);
+      console.log(s);
+      arrAirlines.splice(s, 1);
+    } else if (name == "transfer" && checked == true) {
+      arrTransfer.push(value);
+      console.log(arrTransfer);
+      filters[name] = arrTransfer;
+    } else if (name == "transfer" && checked == false) {
+      let s = arrTransfer.findIndex((el) => el === value);
+      console.log(s);
+      arrTransfer.splice(s, 1);
+    } else {
+      filters[name] = value;
+    }
+
+    renderFilterPage();
   });
 });

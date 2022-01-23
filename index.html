@@ -20,19 +20,35 @@
           <ul class="nav__item-filter-first">
             <li>
               <label>
-                <input type="radio" name="sort-one" id="price-increase" />
+                <input
+                  type="radio"
+                  name="sort_by"
+                  value="priceUp"
+                  checked="true"
+                  id="price-increase"
+                />
                 <span>- по возрастанию цены</span>
               </label>
             </li>
             <li>
               <label>
-                <input type="radio" name="sort-one" id="price-decrease" />
+                <input
+                  type="radio"
+                  name="sort_by"
+                  value="priceDown"
+                  id="price-decrease"
+                />
                 <span>- по убыванию цены</span>
               </label>
             </li>
             <li>
               <label
-                ><input type="radio" name="sort-one" id="sort-traveltime" />
+                ><input
+                  type="radio"
+                  name="sort_by"
+                  value="timeTrip"
+                  id="sort-traveltime"
+                />
                 <span>- по времени в пути</span>
               </label>
             </li>
@@ -43,13 +59,23 @@
           <ul class="nav__item-filter-second">
             <li>
               <label>
-                <input type="checkbox" id="transfer-one" />
+                <input
+                  type="checkbox"
+                  name="transfer"
+                  value="1"
+                  id="transfer-one"
+                />
                 <span>- 1 пересадка</span>
               </label>
             </li>
             <li>
               <label>
-                <input type="checkbox" id="transfer-none" />
+                <input
+                  type="checkbox"
+                  name="transfer"
+                  value="0"
+                  id="transfer-none"
+                />
                 <span>- без пересадок</span>
               </label>
             </li>
@@ -60,15 +86,20 @@
           <div class="nav__item-price">
             <lable>
               <span>От</span>
-              <input type="number" id="price-start" placeholder="0" value="0" />
+              <input
+                type="number"
+                name="price_from"
+                id="price-start"
+                placeholder="0"
+              />
             </lable>
             <lable>
               <span>До</span>
               <input
                 type="number"
+                name="price_to"
                 id="price-end"
                 placeholder="10000000"
-                value="10000000"
               />
             </lable>
           </div>
@@ -82,9 +113,12 @@
         <div class="nav__empty-block nav__empty-block_big"></div>
       </aside>
       <section class="results">
-        <div class="flights"></div>
+        <div class="results__container">
+          <div class="flights"></div>
+          <button class="result__button">Показать еще</button>
+        </div>
       </section>
     </main>
-    <script src="js/script copy.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>
